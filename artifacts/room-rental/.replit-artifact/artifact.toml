@@ -1,0 +1,27 @@
+kind = "mobile"
+previewPath = "/"
+title = "Room for Rent"
+version = "1.0.0"
+id = "artifacts/room-rental"
+router = "expo-domain"
+
+[[integratedSkills]]
+name = "expo"
+version = "1.0.0"
+
+[[services]]
+ensurePreviewReachable = "/status"
+name = "expo"
+paths = [ "/" ]
+localPort = 24038
+
+[services.development]
+run = "pnpm --filter @workspace/room-rental run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/room-rental", "run", "build" ]
+run = [ "pnpm", "--filter", "@workspace/room-rental", "run", "serve" ]
+
+[services.env]
+PORT = "24038"
+BASE_PATH = "/"

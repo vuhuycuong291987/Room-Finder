@@ -1,0 +1,30 @@
+name: Expo Cloud Build
+on:
+  push:
+    branches:
+      - main  # Chạy tự động mỗi khi bạn "Push" code lên nhánh main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Lay ma nguon tu GitHub
+        uses: actions/checkout@v4
+
+      - name: 🏗 Cai dat Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: 🏗 Thiet lap Expo EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }} # Lay tu GitHub Secrets da thiet lap
+
+      - name: 📦 Cai dat thu vien (Dependencies)
+        run: npm install
+
+      - name: 🚀 Gui lenh Build den Expo Cloud
+        run: eas build --platform android --profile preview --non-interactive

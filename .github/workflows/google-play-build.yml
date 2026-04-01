@@ -8,23 +8,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: 📥 Lay ma nguon tu GitHub
+      - name: 📥 Lay ma nguon
         uses: actions/checkout@v4
+
+      - name: 📦 Cai dat pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8 # Hoac phien ban ban dang dung tren Replit
 
       - name: 🏗 Cai dat Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'npm'
+          cache: 'pnpm' # Quan trong: Bat tinh nang cache cho pnpm
 
-      - name: 🏗 Thiet lap Expo EAS
-        uses: expo/expo-github-action@v8
-        with:
-          eas-version: latest
-          token: ${{ secrets.EXPO_TOKEN }} # Lay tu GitHub Secrets da thiet lap
-
-      - name: 📦 Cai dat thu vien (Dependencies)
-        run: npm install
+      - name: 📦 Cai dat Dependencies
+        run: pnpm install --no-frozen-lockfile
 
       - name: 🚀 Gui lenh Build den Expo Cloud
         run: eas build --platform android --profile preview --non-interactive
